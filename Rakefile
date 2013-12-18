@@ -72,6 +72,7 @@ directory 'output'
 file 'output/core.s' => [RUST_SRC, 'arduino.rs', 'output'] do
   sh "#{RUSTC} --target arm-unknown-linux-gnueabihf --lib -c #{RUST_SRC} -S -o output/main.ll --emit-llvm -A non-uppercase-statics -A unused-imports"
   sh "sed -i .1 's/arm-unknown-linux-gnueabihf/arm-none-eabi/g' output/main.ll"
+	sh "patch output/main.ll <main.ll.patch"
   sh "#{LLC} -march=thumb -mattr=+thumb2 -mcpu=cortex-m3 --float-abi=soft -asm-verbose output/main.ll -o=output/core.s"
 end
 
