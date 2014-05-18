@@ -86,3 +86,11 @@ pub fn noInterrupts() {
 		asm!("CPSID i");
 	}
 }
+
+// Since we're compiling without the standard library, there's some things that aren't defined. The % and / operators
+// are unsafe (i.e. n / 0) and need fail_ in order to work properly. We just define it here so those things work.
+#[lang = "fail_"]
+pub fn fail_(_: *u8, _: *u8, _: uint) {
+	//abort()
+}
+

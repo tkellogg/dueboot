@@ -5,30 +5,57 @@
 
 #![crate_id = "blinky#0.1"]
 
-use arduino::{init, delay, pinMode, digitalWrite, analogWrite, LOW, HIGH, OUTPUT};
+use arduino::{init, delay, pinMode, digitalWrite, analogRead, LOW, HIGH, OUTPUT};
 
 mod arduino;
 
-static PWM:u32 = 2;
-static LED:u32 = 13;
+struct Pins {
+	index: u32,
+	count: u32,
+	base: u32
+}
 
-static PWM_LOW:u32 = 0;
-static PWM_HIGH:u32 = 16;
+impl Pins {
+
+	fn each(&self, body: |u32|) {
+		let mut i = 0;
+		while i < self.count {
+			body(i);
+			i += 1;
+		}
+	}
+
+	pub fn init_pins(&self) {
+		self.each(|i| {
+			let pin = self.base + i;
+			pinMode(pin, OUTPUT);
+		});
+	}
+
+	pub fn increment_and_draw(&mut self) {
+		self.index = (self.index + 1) % self.count;
+		self.each(|i| {
+			let pin = self.base + i;
+			let setting = if i == self.index { LOW } else { HIGH };
+			digitalWrite(pin, setting);
+		});
+	}
+}
+
+fn read_potentiometer() -> u32 {
+	analogRead(0) as u32
+}
 
 #[no_mangle]
 pub fn main() {
 	init();
-	delay(1);
-	pinMode(LED, OUTPUT);
-	digitalWrite(LED, LOW);
-	analogWrite(PWM, PWM_LOW);
+
+	let mut pins = Pins { index: 0, count: 4, base: 10 };
+	pins.init_pins();
 
 	loop {
-		analogWrite(PWM, PWM_HIGH);
-		digitalWrite(LED, HIGH);
-		delay(100);
-		analogWrite(PWM, PWM_LOW);
-		digitalWrite(LED, LOW);
-		delay(900);
+		pins.increment_and_draw();
+		let delay_time = read_potentiometer();
+		delay(delay_time);
 	}
 }
