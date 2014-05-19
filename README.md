@@ -8,6 +8,10 @@ Compiling
 
 Modify the Rakefile with your paths and ports, and then "rake burn" to upload to the Arduino.
 
+Here is a circuit diagram of the Arduino sketch:
+
+![Circuit diagram](https://raw.githubusercontent.com/tkellogg/dueboot/master/rust-arduino-circuit.png)
+
 
 Structure
 ---------
