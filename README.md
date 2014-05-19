@@ -15,10 +15,12 @@ Install the prerequisites:
 * `brew install llvm --all-targets`
 
 Then modify `Rakefile`:
-1. `ARDUINO` points to the directory in the Arduino Due installation that has tools to flash the device. Should contain `arm-none-eabi-ar` and `arm-none-eabi-objcopy` among other executables.
-2. `RUSTC` points to the `rustc` executable (the Rust compiler).
-3. `LLC` points to the LLVM compiler executable called `llc`.
-4. `PORT` is the name of the USB connection. Do an `ls /dev/tty*` to get a list of options. Most likely something like `tty.usbmodem1415. RUST_SRC is the name of the *.rs file that contains the `main` function for your sketch.
+
+ 1. `ARDUINO` points to the directory in the Arduino Due installation that has tools to flash the device. Should contain `arm-none-eabi-ar` and `arm-none-eabi-objcopy` among other executables.
+ 2. `RUSTC` points to the `rustc` executable (the Rust compiler).
+ 3. `LLC` points to the LLVM compiler executable called `llc`.
+ 4. `PORT` is the name of the USB connection. Do an `ls /dev/tty*` to get a list of options. Most likely something like `tty.usbmodem141`.
+ 5. `RUST_SRC` is the name of the *.rs file that contains the `main` function for your sketch.
 
 Then run "rake burn" to upload to the Arduino.
 
