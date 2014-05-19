@@ -124,7 +124,7 @@ extern int _write( int file, char *ptr, int len )
 
 extern void _exit( int status )
 {
-    // printf( "Exiting with status %d.\n", status ) ;
+    printf( "Exiting with status %d.\n", status ) ;
 
     for ( ; ; ) ;
 }

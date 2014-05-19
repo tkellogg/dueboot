@@ -199,6 +199,7 @@ uint32_t USBD_Send(uint32_t ep, const void* d, uint32_t len)
 		len -= n;
 
 		UDD_Send(ep & 0xF, data, n);
+		data += n;
     }
 	//TXLED1;					// light the TX LED
 	//TxLEDPulse = TX_RX_LED_PULSE_MS;
@@ -385,7 +386,7 @@ static bool USBD_SendDescriptor(Setup& setup)
 	if (USB_DEVICE_DESCRIPTOR_TYPE == t)
 	{
 		TRACE_CORE(puts("=> USBD_SendDescriptor : USB_DEVICE_DESCRIPTOR_TYPE\r\n");)
-		if (setup.wLength >= 8)
+		if (setup.wLength == 8)
 		{
 			_cdcComposite = 1;
 		}
@@ -600,10 +601,8 @@ static void USB_ISR(void)
 		udd_ack_out_received(CDC_RX);
 
 		// Handle received bytes
-		while (USBD_Available(CDC_RX))
+		if (USBD_Available(CDC_RX))
 			SerialUSB.accept();
-
-		udd_ack_fifocon(CDC_RX);
 	}
 
 	if (Is_udd_sof())
