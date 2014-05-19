@@ -2,8 +2,6 @@ pub static INPUT:u32        = 0x00;
 pub static OUTPUT:u32       = 0x01;
 pub static INPUT_PULLUP:u32 = 0x02;
 
-pub static LOW:u8           = 0x00;
-pub static HIGH:u8          = 0x01;
 pub static CHANGE:u8        = 0x02;
 pub static FALLING:u8       = 0x03;
 pub static RISING:u8        = 0x04;
@@ -12,6 +10,9 @@ pub static EXTERNAL:u32     = 0x00;
 pub static DEFAULT:u32      = 0x01;
 
 pub mod c {
+	pub static LOW:u8           = 0x00;
+	pub static HIGH:u8          = 0x01;
+
 	extern {
 		pub fn init();
 
@@ -44,12 +45,39 @@ pub mod c {
 	}
 }
 
+pub enum DigitalValue { Low, High }
+impl DigitalValue {
+	pub fn val(&self) -> u8 {
+		match *self {
+			Low => c::LOW,
+			High => c::HIGH
+		}
+	}
+
+	pub fn new(value: u8) -> DigitalValue {
+		match value {
+			c::LOW => Low,
+			_ => High
+		}
+	}
+}
+
 pub fn init() { unsafe { c::init() } }
 
 pub fn pinMode(pin:u32, mode:u32) { unsafe { c::pinMode(pin, mode) } }
 
-pub fn digitalWrite(pin:u32, value:u8) { unsafe { c::digitalWrite(pin, value) } }
-pub fn digitalRead(pin:u32) -> i32 { unsafe { c::digitalRead(pin) } }
+pub fn digitalWrite(pin:u32, value:DigitalValue) { 
+	unsafe { 
+		c::digitalWrite(pin, value.val()) 
+	} 
+}
+
+pub fn digitalRead(pin:u32) -> DigitalValue { 
+	unsafe { 
+		let value = c::digitalRead(pin) as u8;
+		DigitalValue::new(value)
+	} 
+}
 
 pub fn analogReference(mode:u8) { unsafe { c::analogReference(mode) } }
 pub fn analogRead(pin:u32) -> i32 { unsafe { c::analogRead(pin) } }

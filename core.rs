@@ -5,7 +5,7 @@
 
 #![crate_id = "blinky#0.1"]
 
-use arduino::{init, delay, pinMode, digitalWrite, analogRead, LOW, HIGH, OUTPUT};
+use arduino::{init, delay, pinMode, digitalWrite, analogRead, DigitalValue, Low, High, OUTPUT};
 
 mod arduino;
 
@@ -36,7 +36,7 @@ impl Pins {
 		self.index = (self.index + 1) % self.count;
 		self.each(|i| {
 			let pin = self.base + i;
-			let setting = if i == self.index { LOW } else { HIGH };
+			let setting = if i == self.index { Low } else { High };
 			digitalWrite(pin, setting);
 		});
 	}
