@@ -1,8 +1,8 @@
-ARDUINO = '/Users/Jens/Applications/Arduino\ 1.5.5.app/Contents/Resources/Java'
-RUSTC = "#{ENV['HOME']}/.local/bin/rustc"
-LLC   = "#{ENV['HOME']}/Code/Git/rust2/x86_64-apple-darwin/llvm/Release+Asserts/bin/llc"
+ARDUINO = '/Users/timkellogg/Downloads/Arduino-1.5.2.app/Contents/Resources/Java'
+RUSTC = "/usr/local/bin/rustc"
+LLC   = "/usr/local/Cellar/llvm/3.4/bin/llc"
 
-PORT = "tty.usbmodem411"
+PORT = "tty.usbmodem1411"
 
 RUST_SRC = 'core.rs'
 
