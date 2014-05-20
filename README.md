@@ -4,8 +4,6 @@ dueboot
 Infrastructure for programming an [Arduino Due][1] in the [Rust programming language][2]. This includes a sample sketch that can be 
 modified to do most any other sketch.
 
-Based on https://github.com/neykov/armboot
-
 Compiling
 ---------
 
@@ -22,7 +20,7 @@ Then modify `Rakefile`:
  4. `PORT` is the name of the USB connection. Do an `ls /dev/tty*` to get a list of options. Most likely something like `tty.usbmodem141`.
  5. `RUST_SRC` is the name of the *.rs file that contains the `main` function for your sketch.
 
-Then run "rake burn" to upload to the Arduino.
+Then run `rake burn` to upload to the Arduino.
 
 Here is a circuit diagram of the Arduino sketch:
 
